@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "YouTube Ad Blocker",
+  "version": "1.0",
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "web_accessible_resources": [
+       "show.html"
+   ],
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "*://www.youtube.com/*"
+  ]
+}
