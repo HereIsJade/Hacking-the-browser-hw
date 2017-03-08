@@ -4,7 +4,7 @@ function submit() {
         greeting: thoughts
       },
       function(response) {
-        $("#div").text(response.msg);
+        $("#div").text(response.msg).css('color', 'red');
       });
 }
 

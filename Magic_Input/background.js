@@ -1,10 +1,18 @@
 // Initialize Firebase
+// var config = {
+//     apiKey: "AIzaSyA5cShEwD6YEBWFLibD5t9gQlZKrJ09Zn4",
+//     authDomain: "myextension-bf3dc.firebaseapp.com",
+//     databaseURL: "https://myextension-bf3dc.firebaseio.com",
+//     storageBucket: "myextension-bf3dc.appspot.com",
+//     messagingSenderId: "1078955169253"
+// };
+
 var config = {
-    apiKey: "AIzaSyA5cShEwD6YEBWFLibD5t9gQlZKrJ09Zn4",
-    authDomain: "myextension-bf3dc.firebaseapp.com",
-    databaseURL: "https://myextension-bf3dc.firebaseio.com",
-    storageBucket: "myextension-bf3dc.appspot.com",
-    messagingSenderId: "1078955169253"
+  apiKey: "AIzaSyBipUlFdfhK9Dwuk-pQi_anONQnXdALdyA",
+  authDomain: "htb-final.firebaseapp.com",
+  databaseURL: "https://htb-final.firebaseio.com",
+  storageBucket: "htb-final.appspot.com",
+  messagingSenderId: "221451463862"
 };
 
 firebase.initializeApp(config);
@@ -60,6 +68,7 @@ function writeData(Id, currentTabUrl, inputThoughts){
 
 function writeCollection(){
   collectionRef = firebase.database().ref('Collection');
+
   var allUserRef = firebase.database().ref("Users");
 
   allUserRef.once('value').then(function(snapshot) {
@@ -68,6 +77,7 @@ function writeCollection(){
     var keys=Object.keys(allUser);
 
     //*********modification: now it's pushing data whenever submitted, including old data
+    //*********BUG: Collection ref was added and then deleted immediately
     //maybe put inside onMessage, when user submits new data, push to userData --solution: change for loop starting index
     //retrieve each user's data
     //could be optimized, using DFS or something?
@@ -85,17 +95,130 @@ function writeCollection(){
   });
   console.log('userData',userData,'length',userData.length,typeof(userData));
   collectionRef.set({
-    // data: [{a:1,v:2},{d:3}]
     data:userData
   });
+  // var adaNameRef = firebase.database().ref('users/ada/name');
+  // // Modify the 'first' and 'last' properties, but leave other data at
+  // // adaNameRef unchanged.
+  // adaNameRef.update({ first: 'Ada', last: 'Lovelace' });
+  // // var updates = {};
+  // // updates['/posts/' + newPostKey] = postData;
+  // // updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+  // //
+  // // return firebase.database().ref().update(updates);
   console.log("collectionRef built");
   console.log(collectionRef);
 }
 
+// function writeCollection(){
+//   collectionRef = firebase.database().ref('Collection');
+//   collectionRef.set({
+//     data: [{a:1,v:2},{d:3}]
+//     //data:userData
+//   });
+//   var allUserRef = firebase.database().ref("Users");
+//   collectionRef.on('value',function(snapshot){
+//     var collection = snapshot.val();
+//     console.log('collection',collection);
+//     var collKeys=Object.keys(collection);
+//     var collKeysLength=collKeys.length;
+//     allUserRef.once('value').then(function(snapshot) {
+//       var allUser = snapshot.val();
+//       console.log(allUser);
+//       var keys=Object.keys(allUser);
+//
+//       //*********modification: now it's pushing data whenever submitted, including old data
+//       //maybe put inside onMessage, when user submits new data, push to userData --solution: change for loop starting index
+//       //retrieve each user's data
+//       //could be optimized, using DFS or something?
+//       for(var i=collKeysLength.length;i<keys.length;i++){
+//         var id =keys[i];
+//         var url= allUser[id].tabUrl;
+//         var texts=allUser[id].thoughts;
+//         var userByIdObj={
+//           userId:id,
+//           tabUrl: url,
+//           thoughts: texts
+//         }
+//         userData.push(userByIdObj);
+//       }//end for
+//     });
+//   });
+//
+//   console.log('userData',userData,'length',userData.length,typeof(userData));
+//   collectionRef.set({
+//     data:userData
+//   });
+// }
+
+//
+// function cbWriteCollection(){
+//   var allUserRef = firebase.database().ref("Users");
+//   collectionRef.on('value',function(snapshot){
+//     var collection = snapshot.val();
+//     console.log('collection',collection);
+//     var collKeys=Object.keys(collection);
+//     var collKeysLength=collKeys.length;
+//     allUserRef.once('value').then(function(snapshot) {
+//       var allUser = snapshot.val();
+//       console.log(allUser);
+//       var keys=Object.keys(allUser);
+//
+//       //*********modification: now it's pushing data whenever submitted, including old data
+//       //maybe put inside onMessage, when user submits new data, push to userData --solution: change for loop starting index
+//       //retrieve each user's data
+//       //could be optimized, using DFS or something?
+//       for(var i=collKeysLength.length;i<keys.length;i++){
+//         var id =keys[i];
+//         var url= allUser[id].tabUrl;
+//         var texts=allUser[id].thoughts;
+//         var userByIdObj={
+//           userId:id,
+//           tabUrl: url,
+//           thoughts: texts
+//         }
+//         userData.push(userByIdObj);
+//       }//end for
+//     });
+//   });
+//
+//   // collectionRef.once('value').then(function(snapshot){
+//   //   var collection = snapshot.val();
+//   //   console.log('collection',collection);
+//   //   var collKeys=Object.keys(collection);
+//   //   var collKeysLength=collKeys.length;
+//   //   allUserRef.once('value').then(function(snapshot) {
+//   //     var allUser = snapshot.val();
+//   //     console.log(allUser);
+//   //     var keys=Object.keys(allUser);
+//   //
+//   //     //*********modification: now it's pushing data whenever submitted, including old data
+//   //     //maybe put inside onMessage, when user submits new data, push to userData --solution: change for loop starting index
+//   //     //retrieve each user's data
+//   //     //could be optimized, using DFS or something?
+//   //     for(var i=collKeysLength.length;i<keys.length;i++){
+//   //       var id =keys[i];
+//   //       var url= allUser[id].tabUrl;
+//   //       var texts=allUser[id].thoughts;
+//   //       var userByIdObj={
+//   //         userId:id,
+//   //         tabUrl: url,
+//   //         thoughts: texts
+//   //       }
+//   //       userData.push(userByIdObj);
+//   //     }
+//   //   });
+//   // });
+//   console.log('userData',userData,'length',userData.length,typeof(userData));
+//   collectionRef.set({
+//     data:userData
+//   });
+// }
+
 function gotData(data){
 	var users=data.val();
-  // console.log(users.tabUrl,users.thoughts);
 }
+
 function errData(err){
 	console.log("Error!");
 }
@@ -111,7 +234,6 @@ function watchClickCount(callback) {
     if (value === null) {
       value = { count: 0 };
     }
-    // console.log('watched value:',value);
     callback(value);
   });
 }
