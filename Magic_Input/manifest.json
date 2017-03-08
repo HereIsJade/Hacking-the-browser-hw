@@ -1,0 +1,19 @@
+{
+  "name": "Firebase try",
+  "version": "1.0",
+  "manifest_version": 2,
+
+  "browser_action": {
+    "default_title": "User input",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["lib/firebase.js", "lib/fuse.js","background.js"],
+    "persistent": false
+  },
+
+  "permissions": [
+    "tabs",
+    "<all_urls>"
+  ]
+}
